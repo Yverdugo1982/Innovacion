@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor Interactivo PRO - Boeing 767</title>
+    <style>
+        :root {
+            --primary-color: #03a9f4;
+            --text-color: #e0e0e0;
+            --bg-color: #1a1a2e;
+            --ui-bg: rgba(26, 26, 46, 0.85);
+        }
+        body { margin: 0; overflow: hidden; background-color: var(--bg-color); font-family: 'Poppins', sans-serif; color: var(--text-color); }
+
+        model-viewer {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            --progress-bar-color: var(--primary-color);
+        }
+
+        /* --- Interfaz de Usuario (UI) --- */
+        .ui-container { position: absolute; z-index: 10; }
+        #title-overlay { top: 30px; left: 30px; pointer-events: none; }
+        #title-overlay h1 { font-size: 2.5rem; margin: 0; }
+        #title-overlay p { font-size: 1.2rem; margin: 0; opacity: 0.8; }
+        
+        #camera-views { bottom: 30px; left: 30px; display: flex; flex-direction: column; gap: 10px; }
+        .view-btn {
+            background: var(--ui-bg); border: 1px solid var(--primary-color); backdrop-filter: blur(5px);
+            color: var(--text-color); padding: 12px 20px; border-radius: 8px; cursor: pointer;
+            font-size: 1rem; font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .view-btn:hover { background-color: var(--primary-color); transform: scale(1.05); }
+        .view-btn.active-view { background-color: var(--primary-color); border-color: #fff; }
+        
+        /* TRANSICIÓN MEJORADA PARA EL PANEL DE INFORMACIÓN */
+        #info-panel {
+            top: 20px; right: 20px; width: 380px; background: var(--ui-bg);
+            backdrop-filter: blur(10px); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            /* Estado inicial (oculto) */
+            opacity: 0;
+            transform: translateX(110%);
+            pointer-events: none;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        }
+        #info-panel.active {
+            /* Estado final (visible) */
+            opacity: 1;
+            transform: translateX(0%);
+            pointer-events: auto;
+        }
+        #info-panel h3 { margin-top: 0; color: var(--primary-color); font-size: 1.5rem; }
+        #info-panel p { font-size: 1rem; line-height: 1.6; }
+        #info-panel #close-panel { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #fff; font-size: 30px; cursor: pointer; }
+
+        /* Estilo para los puntos de anotación (Hotspots) */
+        .hotspot {
+            background: var(--primary-color); border-radius: 50%; border: 3px solid white;
+            box-shadow: 0 0 15px var(--primary-color); width: 24px; height: 24px;
+            animation: pulse 2s infinite; cursor: pointer; transition: transform 0.2s;
+        }
+        .hotspot:hover { transform: scale(1.2); }
+        @keyframes pulse {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(3, 169, 244, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 10px 10px rgba(3, 169, 244, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(3, 169, 244, 0); }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <model-viewer
+        id="visor"
+        src="3d/767LATOBJ.glb"
+        alt="Modelo 3D del Boeing 767"
+        camera-controls
+        auto-rotate
+        rotation-per-second="10deg"
+        shadow-intensity="1.5"
+        exposure="1.2"
+        environment-image="neutral"
+        interaction-prompt="none">
+
+        <!-- Hotspots con data-orbit y data-target para el zoom inteligente -->
+        <button class="hotspot" slot="hotspot-winglet" data-position="23.5 -2 -1" data-orbit="70deg 85deg 15m" data-target="23.5 -2 -1" data-label="Winglet" data-info="Reduce la resistencia aerodinámica, mejorando la eficiencia del combustible."></button>
+        <button class="hotspot" slot="hotspot-radome" data-position="0 1.5 18" data-orbit="5deg 80deg 12m" data-target="0 1.5 18" data-label="Radomo" data-info="Cúpula aerodinámica que protege el radar meteorológico del avión sin interferir con sus señales."></button>
+        <button class="hotspot" slot="hotspot-engine" data-position="6 -3.5 -5" data-orbit="60deg 88deg 10m" data-target="6 -3.5 -5" data-label="Motor Turbofan" data-info="Genera más de 60,000 libras de empuje, combinando potencia y eficiencia para vuelos de largo alcance."></button>
+        <button class="hotspot" slot="hotspot-stabilizer" data-position="0 9 -17" data-orbit="200deg 75deg 25m" data-target="0 9 -17" data-label="Estabilizador Vertical" data-info="Esencial para la estabilidad direccional. Aloja el timón de dirección para controlar la guiñada (yaw)."></button>
+        
+    </model-viewer>
+
+    <!-- Interfaz de Usuario -->
+    <div id="title-overlay" class="ui-container"><h1>Boeing 767-300ER</h1><p>Explora cada detalle de la aeronave.</p></div>
+    <div id="camera-views" class="ui-container">
+        <button class="view-btn" data-view="front">Vista Frontal</button>
+        <button class="view-btn" data-view="top">Vista Cenital</button>
+        <button class="view-btn" data-view="side">Vista Lateral</button>
+    </div>
+    <div id="info-panel" class="ui-container">
+        <button id="close-panel">×</button>
+        <h3 id="info-title"></h3>
+        <p id="info-text"></p>
+    </div>
+
+    <!-- Script para model-viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const visor = document.getElementById('visor');
+            const infoPanel = document.getElementById('info-panel');
+            const infoTitle = document.getElementById('info-title');
+            const infoText = document.getElementById('info-text');
+            const viewButtons = document.querySelectorAll('.view-btn');
+
+            const viewpoints = {
+                front: { orbit: "0deg 75deg 105%", target: "auto auto auto" },
+                top:   { orbit: "0deg 0deg auto", target: "auto auto auto" },
+                side:  { orbit: "90deg 75deg 105%", target: "auto auto auto" }
+            };
+
+            // Iniciar en la vista frontal una vez cargado
+            visor.addEventListener('load', () => {
+                goToView('front');
+            });
+
+            // Función para ir a las vistas predefinidas
+            function goToView(viewName) {
+                const view = viewpoints[viewName];
+                if (!view) return;
+                visor.cameraOrbit = view.orbit;
+                visor.cameraTarget = view.target;
+                
+                viewButtons.forEach(b => b.classList.remove('active-view'));
+                document.querySelector(`.view-btn[data-view="${viewName}"]`).classList.add('active-view');
+            }
+
+            viewButtons.forEach(btn => btn.addEventListener('click', () => goToView(btn.dataset.view)));
+            
+            // LÓGICA MEJORADA PARA LOS HOTSPOTS
+            visor.querySelectorAll('.hotspot').forEach(hotspot => {
+                hotspot.addEventListener('click', () => {
+                    // 1. Zoom inteligente al punto
+                    visor.cameraTarget = hotspot.dataset.target;
+                    visor.cameraOrbit = hotspot.dataset.orbit;
+                    
+                    // 2. Mostrar el panel de información
+                    infoTitle.textContent = hotspot.dataset.label;
+                    infoText.textContent = hotspot.dataset.info;
+                    infoPanel.classList.add('active');
+                });
+            });
+
+            // Cerrar panel de información
+            document.getElementById('close-panel').addEventListener('click', () => {
+                infoPanel.classList.remove('active');
+            });
+
+            // DETENER ROTACIÓN AL INTERACTUAR
+            visor.addEventListener('camera-change', (event) => {
+                if(event.detail.source === 'user-interaction'){
+                    visor.pause();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

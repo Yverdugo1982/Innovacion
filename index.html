@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio de Formación - Metro & SOFOFA Capital Humano</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app-container">
+
+        <!-- ===== PANTALLA 1: INTRO ===== -->
+        <section id="screen-intro" class="screen active-screen">
+            <div class="intro-content">
+                <div class="logos"><img src="img/logo_metro_colores.png" alt="Logo Metro" class="logo"><img src="img/logo-sofofa.png" alt="Logo SOFOFA" class="logo"></div>
+                <h1>Apertura: Una Relación que se Construye</h1>
+                <p class="intro-text">Toda colaboración comienza con una conversación honesta, pero se consolida con resultados concretos. Hoy queremos compartir con Ustedes la historia que hemos escrito juntos.</p>
+                <button id="start-btn" class="cta-button">Comenzar Viaje</button>
+            </div>
+        </section>
+
+        <!-- ===== PANTALLA 2: LÍNEA DE TIEMPO (PRESENTE) ===== -->
+        <section id="screen-timeline" class="screen">
+            <header class="main-header">
+                <div class="logos"><img src="img/logo_metro_colores.png" alt="Logo Metro" class="logo"><img src="img/logo-sofofa.png" alt="Logo SOFOFA" class="logo"></div>
+                <h1>Diversidad de Proyectos: Un Abanico de Soluciones</h1>
+                <!-- TEXTO ACTUALIZADO SEGÚN TU JEFA -->
+                <p class="intro-text">Porque un cliente que moviliza la ciudad necesita respuestas a medida, hemos desplegado una gama de propuestas con estilos y profundidades distintas, adaptadas a cada gerencia.</p>
+            </header>
+            <main class="timeline-container">
+                <div class="timeline">
+                    <div class="timeline-node" data-title="Operaciones y Sistemas" data-description="Trabajamos desde lo emocional y experiencial con un storytelling basado en casuísticas."><div class="timeline-content"><h3>Operaciones y Sistemas</h3><p>Foco Emocional</p></div></div>
+                    <div class="timeline-node" data-title="Mantenimiento" data-description="Desarrollamos programas desde un enfoque técnico y visualmente cercano a la realidad."><div class="timeline-content"><h3>Mantenimiento</h3><p>Enfoque Técnico</p></div></div>
+                    <div class="timeline-node" data-title="Legal y Abastecimiento" data-description="Combinamos la rigurosidad conceptual con una experiencia formativa clara."><div class="timeline-content"><h3>Legal y Abastecimiento</h3><p>Rigurosidad Conceptual</p></div></div>
+                    <div class="timeline-node" data-title="Seguridad, Salud y Líderes" data-description="Propusimos un estilo visualmente innovador, con fuerte apoyo en diseño y microinteracciones."><div class="timeline-content"><h3>Seguridad y Líderes</h3><p>Estilo Innovador</p></div></div>
+                </div>
+            </main>
+            <div class="navigation-controls">
+                <button class="nav-btn" data-target="screen-intro">« Atrás</button>
+                <button class="nav-btn" data-target="screen-future">Siguiente »</button>
+            </div>
+        </section>
+
+        <!-- ===== PANTALLA 3: INNOVACIÓN (FUTURO) ===== -->
+        <section id="screen-future" class="screen">
+            <header class="main-header">
+                <div class="logos"><img src="img/logo_metro_colores.png" alt="Logo Metro" class="logo"><img src="img/logo-sofofa.png" alt="Logo SOFOFA" class="logo"></div>
+                <h1>Innovación Constante: Más Allá de lo Esperado</h1>
+                <p class="intro-text">Pero no solo hemos entregado lo que se espera. También hemos explorado lo que aún no se imagina. Hoy queremos mostrarles nuevos caminos.</p>
+            </header>
+            <main class="future-grid">
+                <div class="future-card" data-modal-type="text" data-modal-title="Ejemplo: Estilos Emergentes" data-modal-content="Próximamente mostraremos un ejemplo interactivo de Estilos Emergentes."><h3>Estilos Emergentes</h3><p>Visual storytelling interactivo, microvideos y diseño "scrollytelling".</p></div>
+                <div class="future-card" data-modal-type="text" data-modal-title="Ejemplo: Gamificación Ligera" data-modal-content="Próximamente mostraremos un ejemplo interactivo de Gamificación Ligera."><h3>Gamificación Ligera</h3><p>Uso de mecánicas de juego para fomentar la participación.</p></div>
+                <div class="future-card" data-modal-type="text" data-modal-title="Ejemplo: Inteligencia Artificial" data-modal-content="Próximamente mostraremos un ejemplo interactivo de IA."><h3>Inteligencia Artificial</h3><p>Generación de contenidos ágiles, asistentes internos y simuladores.</p></div>
+                <!-- LA TARJETA QUE ABRIRÁ EL VISOR 3D -->
+                <div class="future-card" data-modal-type="3d-viewer"><h3>Inmersión 3D y 360°</h3><p>Recorridos virtuales con gráficas fotorrealistas para una experiencia única.</p></div>
+            </main>
+             <div class="navigation-controls"><button class="nav-btn" data-target="screen-timeline">« Atrás</button></div>
+        </section>
+
+    </div>
+
+    <!-- ===== MODALES GLOBALES ===== -->
+    <div id="text-modal" class="modal"><div class="modal-content"><span class="close-button">×</span><h2 id="modal-title"></h2><p id="modal-text"></p><button id="open-video-btn" class="cta-button">Ver Video de Ejemplo</button></div></div>
+    <div id="video-modal" class="modal"><div class="modal-content video-content"><span class="close-button">×</span><video id="modal-video" width="100%" controls><source src="videomuestra.mp4" type="video/mp4"></video></div></div>
+    
+    <!-- EL MODAL QUE CONTENDRÁ EL VISOR 3D -->
+    <div id="viewer-3d-modal" class="modal">
+        <div class="modal-content-3d">
+            <span class="close-button close-3d">×</span>
+            <model-viewer
+                id="visor"
+                src="3d/767LATOBJ.glb"
+                alt="Modelo 3D del Boeing 767"
+                camera-controls auto-rotate rotation-per-second="10deg"
+                shadow-intensity="1.5" exposure="1.2" environment-image="neutral"
+                interaction-prompt="none">
+                <!-- Hotspots -->
+                <button class="hotspot" slot="hotspot-winglet" data-position="23.5 -2 -1" data-orbit="70deg 85deg 15m" data-target="23.5 -2 -1" data-label="Winglet" data-info="Reduce la resistencia aerodinámica, mejorando la eficiencia del combustible."></button>
+                <button class="hotspot" slot="hotspot-radome" data-position="0 1.5 18" data-orbit="5deg 80deg 12m" data-target="0 1.5 18" data-label="Radomo" data-info="Cúpula aerodinámica que protege el radar meteorológico del avión."></button>
+                <button class="hotspot" slot="hotspot-engine" data-position="6 -3.5 -5" data-orbit="60deg 88deg 10m" data-target="6 -3.5 -5" data-label="Motor Turbofan" data-info="Genera más de 60,000 libras de empuje."></button>
+                <button class="hotspot" slot="hotspot-stabilizer" data-position="0 9 -17" data-orbit="200deg 75deg 25m" data-target="0 9 -17" data-label="Estabilizador Vertical" data-info="Esencial para la estabilidad direccional."></button>
+            </model-viewer>
+            <!-- UI del visor 3D -->
+            <div id="camera-views" class="ui-container"><button class="view-btn" data-view="front">Vista Frontal</button><button class="view-btn" data-view="top">Vista Cenital</button><button class="view-btn" data-view="side">Vista Lateral</button></div>
+            <div id="info-panel" class="ui-container"><button id="close-panel">×</button><h3 id="info-title"></h3><p id="info-text"></p></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
